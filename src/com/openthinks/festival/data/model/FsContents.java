@@ -3,6 +3,8 @@ package com.openthinks.festival.data.model;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import utilities.CommonUtilities;
+
 /**
  * Class for festival content data <BR>
  * Fixed 12 months fields
@@ -10,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author minjdai
  * 
  */
-public class FsContents extends AbstractFsJson{
+public class FsContents extends AbstractFsJson {
 	private FsMonth Jan;
 	private FsMonth Feb;
 	private FsMonth Mar;
@@ -28,6 +30,7 @@ public class FsContents extends AbstractFsJson{
 		initialContents();
 	}
 
+	private transient String countrycode;
 	private transient Map<FsMonthType, FsMonth> fsMonthMap;
 
 	private void initialContents() {
@@ -64,16 +67,33 @@ public class FsContents extends AbstractFsJson{
 	}
 
 	/**
-	 * rebuild mapping relationship between {@link FsMonthType} and {@link FsMonth}<BR>
+	 * rebuild mapping relationship between {@link FsMonthType} and
+	 * {@link FsMonth}<BR>
 	 * <i>Note</i> invoke this method after deserializing from json
 	 */
-	public void rebuild(){
+	public void rebuild() {
 		buildFsMap();
 	}
-	
+
 	public void add(FsMonthType month, FsItem item) {
 		// check month not null
 		fsMonthMap.get(month).add(item);
+	}
+
+	public String getCountrycode() {
+		return countrycode;
+	}
+
+	public void setCountrycode(String countrycode) {
+		this.countrycode = countrycode;
+	}
+
+	@Override
+	public String key() {
+		StringBuilder buider = new StringBuilder();
+		buider.append(CommonUtilities.format(Integer.valueOf(getCountrycode()),
+				4, 0));
+		return buider.toString();
 	}
 
 }

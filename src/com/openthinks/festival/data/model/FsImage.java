@@ -3,6 +3,7 @@ package com.openthinks.festival.data.model;
 public class FsImage extends AbstractFsJson{
 	private String url;
 	private String caption;
+	private transient String itemref;
 
 	public FsImage() {
 	}
@@ -29,9 +30,24 @@ public class FsImage extends AbstractFsJson{
 		this.caption = caption;
 	}
 	
+	
+	public String getItemref() {
+		return itemref;
+	}
+	
+	public void setItemref(String itemref) {
+		this.itemref = itemref;
+	}
+	
 	public boolean isValid(){
 		//validate image url and type
 		return url!=null;
+	}
+
+	@Override
+	public String key() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

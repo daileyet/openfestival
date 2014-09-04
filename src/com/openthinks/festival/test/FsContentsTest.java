@@ -46,17 +46,19 @@ public class FsContentsTest {
 
 	private static void testGenerateJson() {
 		FsImage image = new FsImage();
-		image.setCaption("¹ÈÓê1");
+		image.setCaption("ï¿½ï¿½ï¿½ï¿½1");
 		image.setUrl("http://www.bitauto.com/hot/jieqi/allimg/guyu/5.png");
 
 		FsItem item = new FsItem();
-		item.setName("ÇåÃ÷");
+//		item.setCountrycode("86");
+//		item.setMonth("4");
+		item.setName("ï¿½ï¿½ï¿½ï¿½");
 		item.setDate("4");
-		item.setDesc("¹ÈÓêÊÇ¶þÊ®ËÄ½ÚÆøµÄµÚÁù¸ö½ÚÆø£¬Ã¿Äê4ÔÂ19ÈÕ¡«21ÈÕÊ±Ì«Ñôµ½´ï»Æ¾­30¡ãÊ±Îª¹ÈÓê£¬Ô´×Ô¹ÅÈË¡°ÓêÉú°Ù¹È¡±Ö®Ëµ¡£");
+		item.setDesc("ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Ê®ï¿½Ä½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½4ï¿½ï¿½19ï¿½Õ¡ï¿½21ï¿½ï¿½Ê±Ì«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½30ï¿½ï¿½Ê±Îªï¿½ï¿½ï¿½ê£¬Ô´ï¿½Ô¹ï¿½ï¿½Ë¡ï¿½ï¿½ï¿½ï¿½ï¿½Ù¹È¡ï¿½Ö®Ëµï¿½ï¿½");
 		item.add(image);
 
 		image = new FsImage();
-		image.setCaption("¹ÈÓê2");
+		image.setCaption("ï¿½ï¿½ï¿½ï¿½2");
 		image.setUrl("http://photos.tuchong.com/350832/f/4959742.jpg");
 
 		item.add(image);

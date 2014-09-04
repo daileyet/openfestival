@@ -34,6 +34,7 @@ public class FsContentsController {
 		item.setName(name);
 		item.setDate(date);
 		item.setDesc(desc);
+		item.setMonth(month);
 		item.setImages(fsImages);
 		
 		return OperationJson.build().sucess("Festival, "+name+" at "+month+","+date+" was added successfully!").toString();

@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
  * @author minjdai
  *
  */
-public abstract class AbstractFsJson implements Jsonable {
+public abstract class AbstractFsJson implements Jsonable,Keyable {
 	
 	private transient Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
