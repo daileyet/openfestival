@@ -50,6 +50,7 @@ public class FsContentsController {
 			FsImage image=new FsImage((String)was.get(paramerUrl), (String)was.get(paramerCaption));
 			if(image.isValid()){
 				images.add(image);
+				index++;
 				continue;
 			}
 			break;

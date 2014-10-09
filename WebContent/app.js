@@ -1,4 +1,4 @@
-var app = angular.module('festivalApp', ['ngRoute', 'festivalCtrls', 'festivalServices']);
+var app = angular.module('festivalApp', ['ngRoute','festivalCaches', 'festivalCtrls', 'festivalServices','LocalStorageModule']);
 
 app.config(['$routeProvider',
 	function($routeProvider) {
