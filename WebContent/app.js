@@ -12,4 +12,6 @@ app.config(['$routeProvider',
 			redirectTo: '/'
 		});
 	}
-]);
+]).config(['localStorageServiceProvider',function(localStorageServiceProvider){
+	localStorageServiceProvider.setPrefix('openfestival');
+}]);

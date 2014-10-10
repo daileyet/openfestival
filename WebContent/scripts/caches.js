@@ -1,4 +1,4 @@
-var festivalCaches = angular.module('festivalCaches', ['LocalStorageModule']);
+var festivalCaches = angular.module('festivalCaches', []);
 
 festivalCaches.factory('CtxCache', ['$cacheFactory',
 	function($cacheFactory) {
@@ -7,17 +7,17 @@ festivalCaches.factory('CtxCache', ['$cacheFactory',
 ]);
 
 festivalCaches.factory('CtxLocalCache', ['localStorageService',
+
 	function(localStorageService) {
-		var prefix = 'ls.';
 		return {
-			get:function(key){
+			get: function(key) {
 				return localStorageService.get(key);
 			},
-			put:function(key,value){
-				localStorageService.set(key,value);
+			put: function(key, value) {
+				localStorageService.set(key, value);
 			},
-			remove:function(key){
-				localStorageService.remove(key);
+			remove: function(key) {
+				localStorageService.removeItem(key);
 			}
 		}
 	}

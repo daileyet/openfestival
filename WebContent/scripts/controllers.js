@@ -1,52 +1,40 @@
 var festivalCtrls = angular.module('festivalCtrls', []);
 
-festivalCtrls.controller('FestivalListCtrl', ['$rootScope', '$scope', '$timeout', 'FsConfService', 'FsContentService', 'CtxLocalCache', 'localStorageService',
-	function($rootScope, $scope, $timeout, FsConfService, FsContentService, CtxLocalCache, localStorageService) {
-//		if ($rootScope.months == undefined) {
-//			$rootScope.months = FsConfService.getMonths();
-//		}
-//		if ($rootScope.seasons == undefined) {
-//			$rootScope.seasons = FsConfService.getSeasons();
-//		}
-//		if ($rootScope.countries == undefined) {
-//			$rootScope.countries = FsConfService.getCountries();
-//		}
-//		if ($rootScope.contents == undefined) {
-//			$rootScope.contents = FsContentService.getContents();
-//		}
+festivalCtrls.controller('FestivalListCtrl', ['$scope', '$timeout', 'FsConfService', 'FsContentService', 'CtxLocalCache',
+	function($scope, $timeout, FsConfService, FsContentService, CtxLocalCache) {
 
-		if (CtxLocalCache.get('months') == undefined) {
-			CtxLocalCache.put('months', FsConfService.getMonths());
-		}
-		if (CtxLocalCache.get('seasons') == undefined) {
-			CtxLocalCache.put('seasons', FsConfService.getSeasons());
-		}
-		if (CtxLocalCache.get('countries') == undefined) {
-			CtxLocalCache.put('countries', FsConfService.getCountries());
-		}
-		if (CtxLocalCache.get('contents') == undefined) {
-			CtxLocalCache.put('contents', FsContentService.getContents());
-		}
+		if (CtxLocalCache.get('months') == undefined || CtxLocalCache.get('months') == null)
+			$scope.months = FsConfService.getMonths();
+		else
+			$scope.months = CtxLocalCache.get('months');
 
-		$rootScope.months = CtxLocalCache.get('months');
-		$rootScope.seasons = CtxLocalCache.get('seasons');
-		$rootScope.countries = CtxLocalCache.get('countries');
-		$rootScope.contents = CtxLocalCache.get('contents');
+		if (CtxLocalCache.get('seasons') == undefined || CtxLocalCache.get('seasons') == null)
+			$scope.seasons = FsConfService.getSeasons();
+		else
+			$scope.seasons = CtxLocalCache.get('seasons');
+		if (CtxLocalCache.get('countries') == undefined || CtxLocalCache.get('countries') == null)
+			$scope.countries = FsConfService.getCountries();
+		else
+			$scope.countries = CtxLocalCache.get('countries');
+		if (CtxLocalCache.get('contents') == undefined || CtxLocalCache.get('contents') == null)
+			$scope.contents = FsContentService.getContents();
+		else
+			$scope.contents = CtxLocalCache.get('contents');
 
 		$scope.getMonth = function(monNumber) {
-				return CtxLocalCache.get('months')[monNumber - 1]
-			}
-			//get festival by month
+			return $scope.months[monNumber - 1];
+		};
+		//get festival by month
 		$scope.getFestival = function(monNumber) {
 			var monKey = $scope.getMonth(monNumber).key;
-			return CtxLocalCache.get('contents')[monKey];
-		}
+			return $scope.contents[monKey];
+		};
 		$scope.getMainImage = function(fsitem) {
-			if (fsitem.images && fsitem.images.length > 1) {
+			if (fsitem.images && fsitem.images.length > 0) {
 				return fsitem.images[0].url;
 			}
 			return null;
-		}
+		};
 
 		$scope.ctrlMonthBar = function(mouseoverEvent, toShow, isTarget) {
 			if (toShow) {
@@ -66,7 +54,7 @@ festivalCtrls.controller('FestivalListCtrl', ['$rootScope', '$scope', '$timeout'
 				}
 			}
 
-		}
+		};
 
 
 	}
@@ -76,9 +64,6 @@ festivalCtrls.controller('FestivalDetailsCtrl', ['$rootScope', '$scope', '$route
 	function($rootScope, $scope, $routeParams, FsContentService, CtxLocalCache) {
 		var mon = $routeParams.mon;
 		var date = $routeParams.date;
-		if (CtxLocalCache.get('contents') == undefined) {
-			CtxLocalCache.put('contents', FsContentService.getContents());
-		}
 		var fss = CtxLocalCache.get('contents')[mon];
 		var i = 0;
 		var j = fss.length;
@@ -90,6 +75,7 @@ festivalCtrls.controller('FestivalDetailsCtrl', ['$rootScope', '$scope', '$route
 				break;
 			}
 		}
+		
 		$scope.$on('$viewContentLoaded', function() {
 			setTimeout(function() {
 				$(document).foundation();
@@ -113,7 +99,7 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 			var data = {};
 			data.mon = $scope.mon;
 			data.name = $scope.name;
-			data.date = $scope.date;
+			data.date = $scope.date +'';
 			data.desc = $scope.desc;
 			data.images = [];
 
@@ -126,12 +112,12 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 				data.images.push(imgObj);
 			});
 			//submit form data
-			var add_data = data;
+			var ctx_data = data;
 			$.post("/api/contents/add", data, function(data) {
 				alert(data.msg + "[" + data.type + "]");
 				if (data && data.type && data.type == 'SUCESS') {
 					var objCtx = CtxLocalCache.get('contents');
-					objCtx[add_data.mon].push(data);
+					objCtx[ctx_data.mon].push(ctx_data);
 					CtxLocalCache.put('contents', objCtx);
 				}
 			});
