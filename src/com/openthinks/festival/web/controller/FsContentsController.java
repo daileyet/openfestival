@@ -9,10 +9,12 @@ import java.util.List;
 import com.openthinks.easyweb.annotation.Controller;
 import com.openthinks.easyweb.annotation.Mapping;
 import com.openthinks.easyweb.annotation.ResponseReturn;
+import com.openthinks.easyweb.context.WebContexts;
 import com.openthinks.easyweb.context.handler.WebAttributers;
 import com.openthinks.easyweb.utils.json.OperationJson;
 import com.openthinks.festival.data.model.FsImage;
 import com.openthinks.festival.data.model.FsItem;
+import com.openthinks.festival.web.service.FsContentService;
 
 /**
  * @author minjdai
@@ -21,6 +23,8 @@ import com.openthinks.festival.data.model.FsItem;
 @Controller("/api/contents")
 public class FsContentsController {
 
+	FsContentService contentService=WebContexts.get().lookup(FsContentService.class);
+	
 	@Mapping("/add")
 	@ResponseReturn(contentType = "text/json")
 	public String addFestival(WebAttributers was){
@@ -36,6 +40,8 @@ public class FsContentsController {
 		item.setDesc(desc);
 		item.setMonth(month);
 		item.setImages(fsImages);
+		contentService.addContent(item);
+		
 		
 		return OperationJson.build().sucess("Festival, "+name+" at "+month+","+date+" was added successfully!").toString();
 	}

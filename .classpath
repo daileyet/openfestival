@@ -11,5 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/EasyWebFramework"/>
 	<classpathentry kind="lib" path="lib/gson-2.2.4.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

@@ -3,15 +3,17 @@ package com.openthinks.festival.data.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.openthinks.festival.data.model.entity.FsItemEntity;
+
 import utilities.CommonUtilities;
 
-public class FsItem extends AbstractFsJson{
+public class FsItem extends AbstractFsJson {
 	private String name;
 	private String date;
-	
+
 	private transient String month;
 	private transient String countrycode;
-	
+
 	private String desc;
 	private List<FsImage> images = new ArrayList<>();
 
@@ -34,7 +36,7 @@ public class FsItem extends AbstractFsJson{
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
 	public String getMonth() {
 		return month;
 	}
@@ -42,8 +44,6 @@ public class FsItem extends AbstractFsJson{
 	public void setMonth(String month) {
 		this.month = month;
 	}
-	
-	
 
 	public String getCountrycode() {
 		return countrycode;
@@ -68,20 +68,19 @@ public class FsItem extends AbstractFsJson{
 			key = key();
 			image.setItemref(key);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
-		
-	}
 
+	}
 
 	@Override
 	public String toString() {
-		return "[countrycode=" + countrycode + ", month=" + month
-				+ ", date=" + date + ", name=" + name + "]";
+		return "[countrycode=" + countrycode + ", month=" + month + ", date="
+				+ date + ", name=" + name + "]";
 	}
 
 	public int getDateNumber() {
-		int number=0;
+		int number = 0;
 		try {
 			number = Integer.valueOf(getDate());
 		} catch (NumberFormatException e) {
@@ -92,18 +91,34 @@ public class FsItem extends AbstractFsJson{
 
 	@Override
 	public String key() {
-		
-		StringBuilder buider=new StringBuilder();
-		
-		buider.append(CommonUtilities.format(Integer.valueOf(getCountrycode()), 4, 0));
+
+		StringBuilder buider = new StringBuilder();
+
+		buider.append(CommonUtilities.format(Integer.valueOf(getCountrycode()),
+				4, 0));
 		buider.append("-");
 		buider.append(CommonUtilities.format(Integer.valueOf(getMonth()), 2, 0));
 		buider.append("-");
 		buider.append(CommonUtilities.format(Integer.valueOf(getDate()), 2, 0));
 		buider.append("-");
 		buider.append(getName());
-		
+
 		return buider.toString();
+	}
+
+	public FsItemEntity toEntity() {
+		FsItemEntity entity = new FsItemEntity();
+		entity.setName(getName());
+		entity.setDate(getDate());
+		entity.setMonth(getMonth());
+		entity.setDesc(getDesc());
+		if (getCountrycode() != null)
+			entity.setCountrycode(getCountrycode());
+		entity.setDay(null);
+		entity.setWeek(null);
+		entity.setSwitcher("0");
+		entity.setFid(key());
+		return entity;
 	}
 
 }
