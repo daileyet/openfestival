@@ -1,8 +1,11 @@
 package com.openthinks.festival.data.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import utilities.Checker;
 import utilities.CommonUtilities;
 
 /**
@@ -73,11 +76,33 @@ public class FsContents extends AbstractFsJson {
 	 */
 	public void rebuild() {
 		buildFsMap();
+		
+		for(FsMonthType fsMonthType:FsMonthType.values()){
+			FsMonth fsMonth=fsMonthMap.get(fsMonthType);
+			for(FsItem item:fsMonth){
+				item.setMonth(fsMonthType);
+				//TBD
+				//item.setCountrycode(getCountrycode());
+				for(FsImage image:item.getImages()){
+					image.setItemref(item.key());
+				}
+			}
+		}
+		
 	}
 
 	public void add(FsMonthType month, FsItem item) {
-		// check month not null
-		fsMonthMap.get(month).add(item);
+		Checker.require(month).notNull();
+		boolean isSuccess=fsMonthMap.get(month).add(item);
+		if(isSuccess && item.getMonth()==null){
+			item.setMonth(month);
+		}
+	}
+	
+	public void add(FsItem item){
+		Checker.require(item).notNull();
+		Checker.require(item.getMonth()).notNull();
+		add(item.getMonth(),item);
 	}
 
 	public String getCountrycode() {
@@ -94,6 +119,27 @@ public class FsContents extends AbstractFsJson {
 		buider.append(CommonUtilities.format(Integer.valueOf(getCountrycode()),
 				4, 0));
 		return buider.toString();
+	}
+	
+	
+	public List<FsMonth> months(){
+		List<FsMonth> months=new ArrayList<FsMonth>();
+		FsMonthType[] fsMonthTypes=FsMonthType.values();
+		for(FsMonthType fsMonthType:fsMonthTypes){
+			FsMonth fsMonth=fsMonthMap.get(fsMonthType);
+			months.add(fsMonth);
+		}
+		return months;
+	}
+	
+	public static FsContents valueOf(List<FsItem> items){
+		FsContents contents=new FsContents();
+		
+		for(FsItem item:CommonUtilities.requireNotNull(items)){
+			contents.add(item);
+		}
+		
+		return contents;
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.openthinks.festival.data.model;
 
+import utilities.Checker;
+
+import com.openthinks.festival.data.model.entity.FsImageEntity;
+
 public class FsImage extends AbstractFsJson{
 	private String url;
 	private String caption;
@@ -46,8 +50,32 @@ public class FsImage extends AbstractFsJson{
 
 	@Override
 	public String key() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	public FsImageEntity toEntity(){
+		FsImageEntity entity=new FsImageEntity();
+		entity.setFid(getItemref());
+		entity.setCaption(getCaption());
+		entity.setUrl(getUrl());
+		return entity;
+	}
+	
+	
+	public static FsImage valueOf(FsImageEntity entity){
+		Checker.require(entity).notNull();
+		FsImage image=new FsImage();
+		image.setCaption(entity.getCaption());
+		image.setItemref(entity.getFid());
+		image.setUrl(entity.getUrl());
+		return image;
+	}
+
+	@Override
+	public String toString() {
+		return "FsImage [url=" + url + ", caption=" + caption + ", itemref="
+				+ itemref + "]";
 	}
 
 }

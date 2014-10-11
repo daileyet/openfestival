@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
  * @author minjdai
  *
  */
-public class FsMonth extends TreeSet<FsItem> implements Jsonable {
+public class FsMonth extends TreeSet<FsItem> implements Jsonable{
 
 	private static final long serialVersionUID = 720899135133138540L;
 	public FsMonth() {

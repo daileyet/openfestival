@@ -1,6 +1,6 @@
 var festivalServices = angular.module('festivalServices', ['ngResource']);
 
-festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
+festivalServices.factory('FsConfService', ['$resource', 'CtxLocalCache',
 	//	function($http) {
 	//		return {
 	//			fetchMonths: function(existcache, callback) {
@@ -23,7 +23,7 @@ festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
 	//			}
 	//		};
 	//	}
-	function($resource,CtxLocalCache) {
+	function($resource, CtxLocalCache) {
 		return $resource('data/:fsconfPart.json', {}, {
 			getMonths: {
 				method: 'GET',
@@ -31,8 +31,8 @@ festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
 					fsconfPart: 'fsconf-months'
 				},
 				isArray: true,
-				transformResponse:function(data){
-					CtxLocalCache.put('months',data);
+				transformResponse: function(data) {
+					CtxLocalCache.put('months', data);
 					return CtxLocalCache.get('months');
 				}
 			},
@@ -42,9 +42,9 @@ festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
 					fsconfPart: 'fsconf-seasons'
 				},
 				isArray: true,
-				transformResponse:function(data){
-					CtxLocalCache.put('seasons',data);
-					return  CtxLocalCache.get('seasons');
+				transformResponse: function(data) {
+					CtxLocalCache.put('seasons', data);
+					return CtxLocalCache.get('seasons');
 				}
 			},
 			getCountries: {
@@ -53,9 +53,9 @@ festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
 					fsconfPart: 'fsconf-countries'
 				},
 				isArray: true,
-				transformResponse:function(data){
-					CtxLocalCache.put('countries',data);
-					return  CtxLocalCache.get('countries');
+				transformResponse: function(data) {
+					CtxLocalCache.put('countries', data);
+					return CtxLocalCache.get('countries');
 				}
 			}
 		});
@@ -63,7 +63,7 @@ festivalServices.factory('FsConfService', ['$resource','CtxLocalCache',
 
 ]);
 
-festivalServices.factory('FsContentService', ['$resource','CtxLocalCache',
+festivalServices.factory('FsContentService', ['$resource', 'CtxLocalCache',
 	//	function($http) {
 	//		return {
 	//			fetchContents: function(existcache, callback) {
@@ -74,19 +74,36 @@ festivalServices.factory('FsContentService', ['$resource','CtxLocalCache',
 	//			}
 	//		}
 	//	}
-	function($resource,CtxLocalCache) {
-		return $resource('data/:fs.json', {}, {
+	//	function($resource,CtxLocalCache) {
+	//		return $resource('data/:fs.json', {}, {
+	//			getContents: {
+	//				method: 'GET',
+	//				params: {
+	//					fs: 'fs-content'
+	//				},
+	//				isArray: false,
+	//				transformResponse:function(data){
+	//					CtxLocalCache.put('contents',data);
+	//					return CtxLocalCache.get('contents');
+	//				}
+	//			}
+	//		});
+	//	}
+
+	function($resource, CtxLocalCache) {
+		return $resource('api/contents/:action', {}, {
 			getContents: {
 				method: 'GET',
 				params: {
-					fs: 'fs-content'
+					action: 'get'
 				},
 				isArray: false,
-				transformResponse:function(data){
-					CtxLocalCache.put('contents',data);
+				transformResponse: function(data) {
+					CtxLocalCache.put('contents', data);
 					return CtxLocalCache.get('contents');
 				}
 			}
 		});
 	}
+
 ]);

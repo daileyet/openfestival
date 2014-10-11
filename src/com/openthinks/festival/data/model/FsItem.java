@@ -3,16 +3,18 @@ package com.openthinks.festival.data.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.openthinks.festival.data.model.entity.FsItemEntity;
-
+import utilities.Checker;
 import utilities.CommonUtilities;
+
+import com.openthinks.festival.data.model.entity.FsImageEntity;
+import com.openthinks.festival.data.model.entity.FsItemEntity;
 
 public class FsItem extends AbstractFsJson {
 	private String name;
 	private String date;
 
-	private transient String month;
-	private transient String countrycode;
+	private transient FsMonthType month;
+	private transient String countrycode = "86";
 
 	private String desc;
 	private List<FsImage> images = new ArrayList<>();
@@ -29,20 +31,32 @@ public class FsItem extends AbstractFsJson {
 		return date;
 	}
 
+	public List<FsImage> getImages() {
+		return images;
+	}
+
 	public void setImages(List<FsImage> images) {
 		this.images = images;
+		for(FsImage image : images){
+			image.setItemref(key());
+		}
 	}
 
 	public void setDate(String date) {
 		this.date = date;
 	}
 
-	public String getMonth() {
+	public FsMonthType getMonth() {
 		return month;
 	}
 
-	public void setMonth(String month) {
+	public void setMonth(FsMonthType month) {
 		this.month = month;
+	}
+
+	public void setMonth(String month) {
+		Checker.require(month).notNull();
+		this.month = FsMonthType.valueOf(month);
 	}
 
 	public String getCountrycode() {
@@ -73,10 +87,13 @@ public class FsItem extends AbstractFsJson {
 
 	}
 
+
+	
 	@Override
 	public String toString() {
-		return "[countrycode=" + countrycode + ", month=" + month + ", date="
-				+ date + ", name=" + name + "]";
+		return "FsItem [name=" + name + ", date=" + date + ", month=" + month
+				+ ", countrycode=" + countrycode + ", desc=" + desc
+				+ ", images=" + images + "]";
 	}
 
 	public int getDateNumber() {
@@ -91,13 +108,15 @@ public class FsItem extends AbstractFsJson {
 
 	@Override
 	public String key() {
-
+		Checker.require(getCountrycode()).notNull();
+		Checker.require(getMonth()).notNull();
+		Checker.require(getDate()).notNull();
 		StringBuilder buider = new StringBuilder();
 
 		buider.append(CommonUtilities.format(Integer.valueOf(getCountrycode()),
 				4, 0));
 		buider.append("-");
-		buider.append(CommonUtilities.format(Integer.valueOf(getMonth()), 2, 0));
+		buider.append(CommonUtilities.format(getMonth().ordinal(), 2, 0));
 		buider.append("-");
 		buider.append(CommonUtilities.format(Integer.valueOf(getDate()), 2, 0));
 		buider.append("-");
@@ -107,10 +126,11 @@ public class FsItem extends AbstractFsJson {
 	}
 
 	public FsItemEntity toEntity() {
+		Checker.require(getMonth()).notNull();
 		FsItemEntity entity = new FsItemEntity();
 		entity.setName(getName());
 		entity.setDate(getDate());
-		entity.setMonth(getMonth());
+		entity.setMonth(getMonth().toString());
 		entity.setDesc(getDesc());
 		if (getCountrycode() != null)
 			entity.setCountrycode(getCountrycode());
@@ -119,6 +139,27 @@ public class FsItem extends AbstractFsJson {
 		entity.setSwitcher("0");
 		entity.setFid(key());
 		return entity;
+	}
+
+	public void setEntityImages(List<FsImageEntity> imgEntityList) {
+		for (FsImageEntity entity : CommonUtilities
+				.requireNotNull(imgEntityList)) {
+			add(FsImage.valueOf(entity));
+		}
+	}
+
+	public static FsItem valueOf(FsItemEntity entity) {
+		Checker.require(entity).notNull();
+		FsItem item = new FsItem();
+
+		item.setName(entity.getName());
+		item.setCountrycode(entity.getCountrycode());
+		item.setDate(entity.getDate());
+		item.setDesc(entity.getDesc());
+		item.setMonth(entity.getMonth());
+
+		return item;
+
 	}
 
 }
