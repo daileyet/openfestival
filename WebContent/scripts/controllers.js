@@ -55,6 +55,10 @@ festivalCtrls.controller('FestivalListCtrl', ['$scope', '$timeout', 'FsConfServi
 			}
 
 		};
+		
+		$scope.closeModal=function(){
+			$('#view-container').foundation('reveal', 'close');
+		}
 
 
 	}
@@ -75,7 +79,7 @@ festivalCtrls.controller('FestivalDetailsCtrl', ['$rootScope', '$scope', '$route
 				break;
 			}
 		}
-		
+
 		$scope.$on('$viewContentLoaded', function() {
 			setTimeout(function() {
 				$(document).foundation();
@@ -99,7 +103,7 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 			var data = {};
 			data.mon = $scope.mon;
 			data.name = $scope.name;
-			data.date = $scope.date +'';
+			data.date = $scope.date + '';
 			data.desc = $scope.desc;
 			data.images = [];
 
@@ -144,11 +148,27 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 			$scope.hideAddPanel();
 		}
 
-
-
-
-
-
-
 	}
 ]);
+
+
+festivalCtrls.controller('UserLoginCtrl', function($scope, $location) {
+	$scope.$on('$viewContentLoaded', function() {
+		setTimeout(function() {
+//			$(document).foundation();
+		}, 150);
+	});
+	
+	$scope.islogin=true;
+	
+	$scope.singup = function() {
+		$scope.islogin=false;
+	}
+	
+	$scope.singin = function() {
+		$scope.islogin=true;
+	}
+	
+
+});
+
