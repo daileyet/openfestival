@@ -24,7 +24,7 @@ public class FsUserEntity {
 	@Column
 	private String role;
 	@Column
-	private String islock;
+	private String islock="Y";
 
 	public String getFuid() {
 		return fuid;
@@ -68,6 +68,10 @@ public class FsUserEntity {
 
 	public String getIslock() {
 		return islock;
+	}
+	
+	public void setIslock(String islock) {
+		this.islock = islock;
 	}
 
 	public void lock() {

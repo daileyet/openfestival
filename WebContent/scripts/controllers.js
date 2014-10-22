@@ -55,8 +55,8 @@ festivalCtrls.controller('FestivalListCtrl', ['$scope', '$timeout', 'FsConfServi
 			}
 
 		};
-		
-		$scope.closeModal=function(){
+
+		$scope.closeModal = function() {
 			$('#view-container').foundation('reveal', 'close');
 		}
 
@@ -118,7 +118,7 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 			//submit form data
 			var ctx_data = data;
 			$.post("/api/contents/add", data, function(data) {
-				alert(data.msg + "[" + data.type + "]");
+				console.log(data.msg + "[" + data.type + "]");
 				if (data && data.type && data.type == 'SUCESS') {
 					var objCtx = CtxLocalCache.get('contents');
 					objCtx[ctx_data.mon].push(ctx_data);
@@ -155,20 +155,41 @@ festivalCtrls.controller('FestivalAddCtrl', ['$rootScope', '$scope', '$routePara
 festivalCtrls.controller('UserLoginCtrl', function($scope, $location) {
 	$scope.$on('$viewContentLoaded', function() {
 		setTimeout(function() {
-//			$(document).foundation();
+			//			$(document).foundation();
 		}, 150);
 	});
-	
-	$scope.islogin=true;
-	
+
+	//control singup or singin form display or hide
+	$scope.islogin = true;
 	$scope.singup = function() {
-		$scope.islogin=false;
+		$scope.islogin = false;
 	}
-	
 	$scope.singin = function() {
-		$scope.islogin=true;
+		$scope.islogin = true;
+		console.log('Go to signin view');
 	}
-	
+
+	$scope.submitSingin = function() {
+		var data = {};
+	}
+
+	$scope.submitSingup = function() {
+		var post_data = {};
+		post_data.name = $scope.upname;
+		post_data.password = $scope.uppass;
+		post_data.password2 = $scope.uprepass;
+		post_data.email = $scope.upemail;
+
+		$.post('/api/users/add', post_data, function(data) {
+			if (data && data.type && data.type == 'SUCESS') {
+				$scope.singin();
+				console.log(data.msg);
+			}else{
+				
+			}
+			
+		});
+	}
+
 
 });
-
