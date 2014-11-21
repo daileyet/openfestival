@@ -183,7 +183,9 @@ festivalCtrls.controller('UserLoginCtrl', function($scope, $location) {
 		$.post('/api/users/add', post_data, function(data) {
 			if (data && data.type && data.type == 'SUCESS') {
 				$scope.singin();
-				console.log(data.msg);
+//				$('#tab-reg').addClass('ng-hide');
+//				$('#tab-login').removeClass();
+//				console.log(data.msg);
 			}else{
 				
 			}
